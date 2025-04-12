@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { API_ROUTES } from "@/src/config/api";
+import { API_ROUTES } from "@/config/api";
 
 const convertDate = () => {
   const now = new Date();

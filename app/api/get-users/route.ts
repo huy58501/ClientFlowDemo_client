@@ -1,4 +1,4 @@
-import { API_ROUTES } from "@/src/config/api";
+import { API_ROUTES } from "@/config/api";
 
 export async function GET(request: Request) {
     const cookie = request.headers.get('cookie');

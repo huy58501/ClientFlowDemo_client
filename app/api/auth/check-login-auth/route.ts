@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import cookie from 'cookie';
+import * as cookie from 'cookie';
 import jwt from 'jsonwebtoken';
 
 export async function POST(req: Request) {
@@ -55,7 +55,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Server error' }, { status: 500 });
     }
 
-    // Verify the token to ensure it’s valid
+    // Verify the token to ensure it's valid
     const decoded = jwt.verify(token, secretKey);
     return NextResponse.json({ message: 'User Authorized' });
 
