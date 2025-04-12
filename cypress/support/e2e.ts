@@ -1,10 +1,10 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
-// Import global styles
-import '../../src/styles/globals.css'
+// Alternatively you can use CommonJS syntax:
+// require('./commands')
 
-// Augment the Cypress namespace to include custom commands
+// Prevent TypeScript errors when accessing Cypress globals
 declare global {
   namespace Cypress {
     interface Chainable {
