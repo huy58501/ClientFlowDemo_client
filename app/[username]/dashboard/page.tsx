@@ -1,38 +1,37 @@
 'use client';
 
+import { use, useEffect, useState } from 'react';
+import TesterDashboard from '@/components/clients/tester/dashboard';
+import ClientDashboard from '@/components/clients/client/dashboard';
+import AdminDashboard from '@/components/admin/dashboard';
+import NotFound from '@/components/UI/NotFound';
+import LoadingModal from '@/components/UI/LoadingModal';
 import useAuth from '@/hooks/useAuth';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 
-export default function DashboardPage() {
-  const authStatus = useAuth();
-  const router = useRouter();
+type PageParams = {
+  username: string;
+};
 
-  useEffect(() => {
-    if (authStatus === 'unauthorized') {
-      router.push('/');
-    }
-  }, [authStatus, router]);
+export default function DashboardPage({ params }: { params: Promise<PageParams> }) {
+  const { username } = use(params);
+  const checkAuth = useAuth();
 
-  if (authStatus === 'loading') {
-    return <div>Loading...</div>;
+  if (checkAuth.authStatus === 'loading') return <LoadingModal />;
+  if (checkAuth.authStatus === 'unauthorized' || !checkAuth.auth) return <NotFound />;
+
+  const isAdmin = checkAuth.auth.role === 'admin';
+  const isSelf = checkAuth.auth.username === username;
+
+  if (!isAdmin && !isSelf) return <NotFound />;
+
+  switch (username) {
+    case 'admin':
+      return <AdminDashboard />;
+    case 'client':
+      return <ClientDashboard />;
+    case 'tester':
+      return <TesterDashboard />;
+    default:
+      return <NotFound />;
   }
-
-  if (authStatus === 'unauthorized') {
-    return null;
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h1>
-        
-        {/* Add your dashboard content here */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Welcome to your dashboard</h2>
-          <p className="text-gray-600">This is your personal dashboard page.</p>
-        </div>
-      </div>
-    </div>
-  );
-} 
+}

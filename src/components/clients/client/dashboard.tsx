@@ -1,9 +1,6 @@
 'use client';
-import { useEffect, useState } from 'react';
-import React from 'react';
-import { FiMenu, FiX, FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import Sidebar from '../UI/Sidebar';
-import Navbar from '../UI/Navbar';
+import React, { useEffect, useState } from 'react';
+import Navbar from '@/components/UI/Navbar';
 
 interface User {
   id: string;
@@ -20,10 +17,7 @@ interface User {
 
 const Dashboard: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [expandedUserId, setExpandedUserId] = useState<string | null>(null);
 
   const fetchUsers = async () => {
@@ -38,8 +32,6 @@ const Dashboard: React.FC = () => {
       setUsers(data.users || []);
     } catch (err) {
       setError('Failed to load users');
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -63,23 +55,6 @@ const Dashboard: React.FC = () => {
       setExpandedUserId(userId);
     }
   };
-
-  // Close mobile menu when screen size changes
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900">
-      <div className="text-white text-xl">Loading...</div>
-    </div>
-  );
 
   return (
     <div className="flex h-screen bg-gray-100">
