@@ -6,6 +6,7 @@ on:
 
 jobs:
   cypress-run:
+    name: cypress
     runs-on: ubuntu-latest
 
     steps:

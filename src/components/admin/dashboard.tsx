@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import React from 'react';
 import { FiMenu, FiX, FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import Sidebar from '../UI/Sidebar';
+import Navbar from '../UI/Navbar';
 
 interface User {
   id: string;
@@ -83,30 +83,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-slate-900">
       {/* Mobile Header */}
-      <div className="md:hidden bg-slate-950 text-white p-4 flex items-center justify-between">
-        <h1 className="text-xl font-bold">Admin Dashboard</h1>
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
-        >
-          {isMobileMenuOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-slate-950 text-white p-4">
-          <Sidebar onLogout={handleLogout} />
-        </div>
-      )}
-
-      {/* Desktop Sidebar */}
-      <div className="hidden md:block w-64 bg-slate-950 text-white p-6 shrink-0">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        </div>
-        <Sidebar onLogout={handleLogout} />
-      </div>
+      <Navbar title="Admin Dashboard" onLogout={handleLogout} />
 
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-8 w-full">
