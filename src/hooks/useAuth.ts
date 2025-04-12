@@ -1,30 +1,48 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+type AuthResponse = {
+  authorized: boolean;
+  username: string;
+  role: 'admin' | 'client' | 'tester';
+};
+
 const useAuth = () => {
   const [authStatus, setAuthStatus] = useState<'loading' | 'authorized' | 'unauthorized'>('loading');
   const router = useRouter();
+  const [auth, setAuth] = useState<AuthResponse | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
     const usernameFromPath = window.location.pathname.split('/')[1];
+    console.log("usernameFromPath", usernameFromPath);
     if (usernameFromPath) {
+      console.log("usernameFromPath is not null");
         try {
-          const response = await fetch(`/api/check-login-auth?username=${usernameFromPath}`, {
+          const response = await fetch(`/api/auth/check-login-auth?username=${usernameFromPath}`, {
             method: 'POST',
             credentials: 'include',
           });
-
+          console.log("response", response);
           if (response.ok) {
-            setAuthStatus('authorized');
+            const data = await response.json();
+            console.log("data", data);
+            if (data.authorized) {
+              setAuthStatus('authorized');
+              setAuth(data);
+            } else {
+              setAuthStatus('unauthorized');
+              setAuth(null);
+            }
           } else {
             setAuthStatus('unauthorized');
-            router.push('/');
+            setAuth(null);
           }
         } catch (error) {
           console.error('Error during authentication check:', error);
           setAuthStatus('unauthorized');
-          router.push('/');
+          router.push('/404');
         }
       } else {
         console.warn('Username mismatch or missing, redirecting to login.');
@@ -36,7 +54,7 @@ const useAuth = () => {
     checkAuth();
   }, [router]);
 
-  return authStatus;
+  return { authStatus, auth, loading };
 };
 
 export default useAuth;

@@ -22,7 +22,6 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [expandedUserId, setExpandedUserId] = useState<string | null>(null);
 
   const fetchUsers = async () => {
@@ -63,23 +62,6 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  // Close mobile menu when screen size changes
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900">
-      <div className="text-white text-xl">Loading...</div>
-    </div>
-  );
-
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-slate-900">
       {/* Mobile Header */}
@@ -117,9 +99,14 @@ const Dashboard: React.FC = () => {
                 <tbody>
                   {users.map((user) => (
                     <React.Fragment key={user.id}>
-                      <tr className="border-b border-white/5 hover:bg-white/5">
+                      <tr className="border-b border-white/5 hover:bg-white/5 transition-colors duration-200">
                         <td className="p-4">
-                          <div className="text-white font-medium">{user.username}</div>
+                          <a 
+                            href={`/${user.username}/dashboard`}
+                            className="text-white font-medium hover:text-blue-400 transition-colors duration-200"
+                          >
+                            {user.username}
+                          </a>
                         </td>
                         <td className="p-4">
                           <div className="text-white font-medium">{user.role}</div>
@@ -130,19 +117,19 @@ const Dashboard: React.FC = () => {
                           </div>
                         </td>
                         <td className="p-4 text-gray-300">
-                          {user.loginHistory && user.loginHistory.length > 0 
-                            ? new Date(user.loginHistory[0].login_time).toLocaleString() 
+                          {user.loginHistory && user.loginHistory.length > 0
+                            ? new Date(user.loginHistory[0].login_time).toLocaleString()
                             : 'N/A'}
                         </td>
                         <td className="p-4 text-gray-300">
-                          {user.loginHistory && user.loginHistory.length > 0 
-                            ? user.loginHistory[0].ip 
+                          {user.loginHistory && user.loginHistory.length > 0
+                            ? user.loginHistory[0].ip
                             : 'N/A'}
                         </td>
                         <td className="p-4 text-gray-300">
                           <div className="max-w-xs truncate">
-                            {user.loginHistory && user.loginHistory.length > 0 
-                              ? user.loginHistory[0].device 
+                            {user.loginHistory && user.loginHistory.length > 0
+                              ? user.loginHistory[0].device
                               : 'N/A'}
                           </div>
                         </td>
@@ -150,7 +137,7 @@ const Dashboard: React.FC = () => {
                           <div className="flex gap-2">
                             <button
                               onClick={() => toggleLoginHistory(user.id)}
-                              className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-1"
+                              className="px-3 py-1 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-1 transition-colors duration-200"
                             >
                               {expandedUserId === user.id ? (
                                 <>
@@ -167,14 +154,13 @@ const Dashboard: React.FC = () => {
                           </div>
                         </td>
                       </tr>
-                      
                       {/* Login History Panel */}
                       {expandedUserId === user.id && (
                         <tr>
                           <td colSpan={7} className="p-0">
                             <div className="bg-slate-800/50 border-t border-white/10 p-4">
                               <h4 className="text-white font-medium mb-3">Login History for {user.username}</h4>
-                              
+
                               {user.loginHistory && user.loginHistory.length > 0 ? (
                                 <div className="space-y-3">
                                   {user.loginHistory.map((login, index) => (
@@ -220,7 +206,7 @@ const Dashboard: React.FC = () => {
                 <button className="px-3 py-1 rounded-lg bg-blue-600 text-white">1</button>
                 <button className="px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10">&gt;</button>
               </div>
-              <select 
+              <select
                 value={itemsPerPage}
                 onChange={(e) => setItemsPerPage(Number(e.target.value))}
                 className="w-full sm:w-auto bg-white/5 border border-white/10 text-gray-400 rounded-lg px-3 py-1"
