@@ -11,4 +11,4 @@ const LoadingModal: React.FC = () => {
   );
 };
 
-export default LoadingModal; 
+export default LoadingModal;

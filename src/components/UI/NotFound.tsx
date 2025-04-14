@@ -14,10 +14,11 @@ const NotFound: React.FC = () => {
           <h1 className="text-6xl font-bold text-white mb-4">404</h1>
           <h2 className="text-2xl font-semibold text-white mb-2">Access Denied</h2>
           <p className="text-gray-400">
-            You don't have permission to access this page. Please contact your administrator if you believe this is a mistake.
+            You don't have permission to access this page. Please contact your administrator if you
+            believe this is a mistake.
           </p>
         </div>
-        
+
         <button
           onClick={() => router.push('/')}
           className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
@@ -30,4 +31,4 @@ const NotFound: React.FC = () => {
   );
 };
 
-export default NotFound; 
+export default NotFound;

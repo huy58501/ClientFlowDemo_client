@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import React from 'react';
-import { FiMenu, FiX, FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import Navbar from '../UI/Navbar';
+import { FiChevronDown, FiChevronUp, FiFolder, FiGrid } from 'react-icons/fi';
+import Sidebar from '../UI/Sidebar';
 
 interface User {
   id: string;
@@ -29,7 +29,7 @@ const Dashboard: React.FC = () => {
       const response = await fetch(`/api/get-users`, {
         headers: {
           credentials: 'include',
-        }
+        },
       });
       if (!response.ok) throw new Error('Failed to fetch users');
       const data = await response.json();
@@ -45,15 +45,6 @@ const Dashboard: React.FC = () => {
     fetchUsers();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      window.location.href = '/login';
-    } catch (err) {
-      setError('Failed to logout');
-    }
-  };
-
   const toggleLoginHistory = (userId: string) => {
     if (expandedUserId === userId) {
       setExpandedUserId(null);
@@ -62,17 +53,32 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  const menuItems = [
+    {
+      label: 'Dashboard',
+      href: '/admin/dashboard',
+      icon: FiGrid,
+    },
+    {
+      label: 'Projects',
+      href: '/admin/projects',
+      icon: FiFolder,
+    },
+  ];
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-slate-900">
       {/* Mobile Header */}
-      <Navbar title="Admin Dashboard" onLogout={handleLogout} />
+      <Sidebar title="Admin Dashboard" menuItems={menuItems} />
 
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-8 w-full">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">
             <h2 className="text-2xl font-semibold text-white">User Login History</h2>
-            <p className="text-gray-400 mt-1">View and manage user login activities across the platform</p>
+            <p className="text-gray-400 mt-1">
+              View and manage user login activities across the platform
+            </p>
           </div>
 
           {error && (
@@ -97,11 +103,11 @@ const Dashboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
+                  {users.map(user => (
                     <React.Fragment key={user.id}>
                       <tr className="border-b border-white/5 hover:bg-white/5 transition-colors duration-200">
                         <td className="p-4">
-                          <a 
+                          <a
                             href={`/${user.username}/dashboard`}
                             className="text-white font-medium hover:text-blue-400 transition-colors duration-200"
                           >
@@ -159,12 +165,17 @@ const Dashboard: React.FC = () => {
                         <tr>
                           <td colSpan={7} className="p-0">
                             <div className="bg-slate-800/50 border-t border-white/10 p-4">
-                              <h4 className="text-white font-medium mb-3">Login History for {user.username}</h4>
+                              <h4 className="text-white font-medium mb-3">
+                                Login History for {user.username}
+                              </h4>
 
                               {user.loginHistory && user.loginHistory.length > 0 ? (
                                 <div className="space-y-3">
                                   {user.loginHistory.map((login, index) => (
-                                    <div key={index} className="bg-white/5 rounded-lg p-3 border border-white/10">
+                                    <div
+                                      key={index}
+                                      className="bg-white/5 rounded-lg p-3 border border-white/10"
+                                    >
                                       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                                         <div>
                                           <p className="text-gray-400 text-sm">Login Time</p>
@@ -178,7 +189,9 @@ const Dashboard: React.FC = () => {
                                         </div>
                                         <div>
                                           <p className="text-gray-400 text-sm">Device</p>
-                                          <p className="text-white font-medium truncate">{login.device}</p>
+                                          <p className="text-white font-medium truncate">
+                                            {login.device}
+                                          </p>
                                         </div>
                                       </div>
                                     </div>
@@ -202,13 +215,17 @@ const Dashboard: React.FC = () => {
             {/* Pagination */}
             <div className="p-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-2">
-                <button className="px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10">&lt;</button>
+                <button className="px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10">
+                  &lt;
+                </button>
                 <button className="px-3 py-1 rounded-lg bg-blue-600 text-white">1</button>
-                <button className="px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10">&gt;</button>
+                <button className="px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-white/10">
+                  &gt;
+                </button>
               </div>
               <select
                 value={itemsPerPage}
-                onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                onChange={e => setItemsPerPage(Number(e.target.value))}
                 className="w-full sm:w-auto bg-white/5 border border-white/10 text-gray-400 rounded-lg px-3 py-1"
               >
                 <option value="10">10 rows</option>

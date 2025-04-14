@@ -8,5 +8,4 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 
-
-// Add more custom commands here 
+// Add more custom commands here

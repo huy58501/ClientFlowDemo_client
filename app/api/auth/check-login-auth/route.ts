@@ -1,53 +1,50 @@
-import { NextResponse } from "next/server";
-import * as cookie from "cookie";
-import jwt from "jsonwebtoken";
+import { NextResponse } from 'next/server';
+import * as cookie from 'cookie';
+import jwt from 'jsonwebtoken';
 
 export async function POST(req: Request) {
   try {
-    const cookies = cookie.parse(req.headers.get("cookie") || "");
+    const cookies = cookie.parse(req.headers.get('cookie') || '');
     const token = cookies.auth_token;
     const url = new URL(req.url);
-    const requestedUsername = url.searchParams.get("username");
+    const requestedUsername = url.searchParams.get('username');
 
     if (!token) {
-      return NextResponse.json({ authorized: false, error: "Missing token" }, { status: 401 });
+      return NextResponse.json({ authorized: false, error: 'Missing token' }, { status: 401 });
     }
 
     const decodedToken = jwt.decode(token);
-    if (typeof decodedToken === "string" || !decodedToken || !("username" in decodedToken)) {
-      return NextResponse.json({ authorized: false, error: "Invalid token structure" }, { status: 401 });
+    if (typeof decodedToken === 'string' || !decodedToken || !('username' in decodedToken)) {
+      return NextResponse.json(
+        { authorized: false, error: 'Invalid token structure' },
+        { status: 401 }
+      );
     }
 
     const secretKey = process.env.JWT_SECRET_KEY;
     if (!secretKey) {
-      return NextResponse.json({ authorized: false, error: "Missing JWT secret" }, { status: 500 });
+      return NextResponse.json({ authorized: false, error: 'Missing JWT secret' }, { status: 500 });
     }
 
     const verifiedUser = jwt.verify(token, secretKey) as { username: string; role: string };
 
-    const isAdmin = verifiedUser.role === "admin";
+    const isAdmin = verifiedUser.role === 'admin';
     const isSelf = verifiedUser.username === requestedUsername;
 
     if (!isAdmin && !isSelf) {
-      return NextResponse.json({ authorized: false, error: "Forbidden" }, { status: 403 });
+      return NextResponse.json({ authorized: false, error: 'Forbidden' }, { status: 403 });
     }
-    console.log("verifiedUser", verifiedUser);
-    console.log("isAdmin", isAdmin);
-    console.log("isSelf", isSelf);
-    console.log("NextResponse", NextResponse.json({
-      authorized: true,
-      username: verifiedUser.username,
-      role: verifiedUser.role,
-    }));
 
     return NextResponse.json({
       authorized: true,
       username: verifiedUser.username,
       role: verifiedUser.role,
     });
-
   } catch (err) {
-    console.error("Auth error:", err);
-    return NextResponse.json({ authorized: false, error: "Invalid token or server error" }, { status: 401 });
+    console.error('Auth error:', err);
+    return NextResponse.json(
+      { authorized: false, error: 'Invalid token or server error' },
+      { status: 401 }
+    );
   }
 }

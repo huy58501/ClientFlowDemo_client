@@ -1,9 +1,7 @@
 'use client';
 
 import { use } from 'react';
-import TesterDashboard from '@/components/clients/tester/dashboard';
-import ClientDashboard from '@/components/clients/client/dashboard';
-import AdminDashboard from '@/components/admin/dashboard';
+import BookInventory from '@/components/clients/client/BookInventory';
 import NotFound from '@/components/UI/NotFound';
 import LoadingModal from '@/components/UI/LoadingModal';
 import useAuth from '@/hooks/useAuth';
@@ -12,7 +10,7 @@ type PageParams = {
   username: string;
 };
 
-export default function DashboardPage({ params }: { params: Promise<PageParams> }) {
+export default function BookInventoryPage({ params }: { params: Promise<PageParams> }) {
   const { username } = use(params);
   const checkAuth = useAuth();
 
@@ -24,14 +22,9 @@ export default function DashboardPage({ params }: { params: Promise<PageParams> 
 
   if (!isAdmin && !isSelf) return <NotFound />;
 
-  switch (username) {
-    case 'admin':
-      return <AdminDashboard />;
-    case 'client':
-      return <ClientDashboard />;
-    case 'tester':
-      return <TesterDashboard />;
-    default:
-      return <NotFound />;
+  if (username === 'client') {
+    return <BookInventory />;
   }
+
+  return <NotFound />;
 }
