@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { FiGrid, FiFolder, FiLogOut, FiMenu, FiX, FiBook } from 'react-icons/fi';
+import { FiLogOut, FiMenu, FiX } from 'react-icons/fi';
 
 interface NavbarProps {
   title: string;
@@ -39,7 +39,7 @@ const Sidebar: React.FC<NavbarProps> = ({ title, menuItems }) => {
 
   const SidebarContent = () => (
     <nav className="space-y-2">
-      {menuItems.map((item) => (
+      {menuItems.map(item => (
         <Link
           key={item.label}
           href={item.href}
@@ -72,9 +72,11 @@ const Sidebar: React.FC<NavbarProps> = ({ title, menuItems }) => {
       </div>
 
       {/* Mobile Menu */}
-      <div 
+      <div
         className={`md:hidden fixed inset-0 bg-slate-950/95 backdrop-blur-sm transition-all duration-300 z-40 ${
-          isMobileMenuOpen ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'
+          isMobileMenuOpen
+            ? 'opacity-100 translate-x-0'
+            : 'opacity-0 translate-x-full pointer-events-none'
         }`}
         style={{ top: '73px' }}
       >
@@ -101,4 +103,4 @@ const Sidebar: React.FC<NavbarProps> = ({ title, menuItems }) => {
   );
 };
 
-export default Sidebar; 
+export default Sidebar;

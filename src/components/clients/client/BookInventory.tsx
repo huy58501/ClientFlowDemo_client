@@ -52,7 +52,7 @@ export default function BookInventory() {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'quantity' || name === 'price' ? parseFloat(value) : value
+      [name]: name === 'quantity' || name === 'price' ? parseFloat(value) : value,
     }));
   };
 
@@ -60,10 +60,8 @@ export default function BookInventory() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const url = editingBook 
-        ? `/api/books/${editingBook.id}`
-        : '/api/books';
-      
+      const url = editingBook ? `/api/books/${editingBook.id}` : '/api/books';
+
       const response = await fetch(url, {
         method: editingBook ? 'PUT' : 'POST',
         headers: {
@@ -73,7 +71,7 @@ export default function BookInventory() {
       });
 
       if (!response.ok) throw new Error('Failed to save book');
-      
+
       await fetchBooks();
       handleCloseModal();
     } catch (err) {
@@ -84,14 +82,14 @@ export default function BookInventory() {
   // Handle book deletion
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure you want to delete this book?')) return;
-    
+
     try {
       const response = await fetch(`/api/books/${id}`, {
         method: 'DELETE',
       });
 
       if (!response.ok) throw new Error('Failed to delete book');
-      
+
       await fetchBooks();
     } catch (err) {
       setError('Failed to delete book');
@@ -167,7 +165,7 @@ export default function BookInventory() {
             type="text"
             placeholder="Search books..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -185,24 +183,46 @@ export default function BookInventory() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ISBN</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Title
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Author
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                ISBN
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Category
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Quantity
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Price
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {filteredBooks.map((book) => (
+            {filteredBooks.map(book => (
               <tr key={book.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{book.title}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  {book.title}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{book.author}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{book.isbn}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{book.category}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{book.quantity}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${book.price.toFixed(2)}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {book.category}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  {book.quantity}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  ${book.price.toFixed(2)}
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <div className="flex gap-2">
                     <button
@@ -227,7 +247,7 @@ export default function BookInventory() {
 
       {/* Mobile Card View */}
       <div className="md:hidden space-y-4">
-        {filteredBooks.map((book) => (
+        {filteredBooks.map(book => (
           <div key={book.id} className="bg-white rounded-lg shadow p-4">
             <div className="flex justify-between items-start mb-2">
               <h3 className="text-lg font-medium text-gray-900">{book.title}</h3>
@@ -275,10 +295,7 @@ export default function BookInventory() {
               <h2 className="text-xl font-semibold text-gray-800">
                 {editingBook ? 'Edit Book' : 'Add New Book'}
               </h2>
-              <button
-                onClick={handleCloseModal}
-                className="text-gray-500 hover:text-gray-700"
-              >
+              <button onClick={handleCloseModal} className="text-gray-500 hover:text-gray-700">
                 <FiX className="w-6 h-6" />
               </button>
             </div>

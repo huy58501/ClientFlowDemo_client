@@ -30,7 +30,7 @@ const Dashboard: React.FC = () => {
       const response = await fetch(`/api/get-users`, {
         headers: {
           credentials: 'include',
-        }
+        },
       });
       if (!response.ok) throw new Error('Failed to fetch users');
       const data = await response.json();
@@ -52,12 +52,10 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <Sidebar title="Client Dashboard"/>
-      
+      <Sidebar title="Client Dashboard" />
+
       {/* Main Content */}
-      <div className="flex-1 p-4 md:p-8 overflow-auto">
-        {/* Your existing main content here */}
-      </div>
+      <div className="flex-1 p-4 md:p-8 overflow-auto">{/* Your existing main content here */}</div>
     </div>
   );
 };

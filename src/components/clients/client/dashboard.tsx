@@ -23,16 +23,16 @@ const Dashboard: React.FC = () => {
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
     newPassword: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
   const [passwordMessage, setPasswordMessage] = useState({ text: '', type: '' });
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchUser = async () => {
-    const username = "client";
+    const username = 'client';
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/get-me?username=${username}`, { 
+      const response = await fetch(`/api/get-me?username=${username}`, {
         headers: {
           credentials: 'include',
         },
@@ -57,12 +57,12 @@ const Dashboard: React.FC = () => {
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       setPasswordMessage({ text: 'New passwords do not match', type: 'error' });
       return;
     }
-    
+
     try {
       const response = await fetch('/api/change-password', {
         method: 'POST',
@@ -72,10 +72,10 @@ const Dashboard: React.FC = () => {
         },
         body: JSON.stringify({
           currentPassword: passwordData.currentPassword,
-          newPassword: passwordData.newPassword
+          newPassword: passwordData.newPassword,
         }),
       });
-      
+
       if (response.ok) {
         setPasswordMessage({ text: 'Password changed successfully', type: 'success' });
         setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
@@ -94,7 +94,7 @@ const Dashboard: React.FC = () => {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -179,19 +179,28 @@ const Dashboard: React.FC = () => {
         {user && user.loginHistory && user.loginHistory.length > 0 && (
           <div className="bg-gray-50 p-6 rounded-lg mb-6">
             <h2 className="text-xl font-semibold text-gray-700 mb-4">Your Login History</h2>
-            
+
             {/* Desktop Table View */}
             <div className="hidden md:block overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-100">
                   <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Date & Time
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Device
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       IP Address
                     </th>
                   </tr>
@@ -227,7 +236,8 @@ const Dashboard: React.FC = () => {
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm text-gray-500">
-                      <span className="font-medium">Date & Time:</span> {formatDate(login.login_time)}
+                      <span className="font-medium">Date & Time:</span>{' '}
+                      {formatDate(login.login_time)}
                     </p>
                     <p className="text-sm text-gray-500">
                       <span className="font-medium">IP Address:</span> {login.ip}
@@ -244,7 +254,10 @@ const Dashboard: React.FC = () => {
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Change Password</h2>
           <form onSubmit={handlePasswordSubmit} className="space-y-4">
             <div>
-              <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="currentPassword"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Current Password
               </label>
               <input
@@ -272,7 +285,10 @@ const Dashboard: React.FC = () => {
               />
             </div>
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Confirm New Password
               </label>
               <input
@@ -294,7 +310,9 @@ const Dashboard: React.FC = () => {
             {passwordMessage.text && (
               <div
                 className={`mt-4 p-3 rounded ${
-                  passwordMessage.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                  passwordMessage.type === 'success'
+                    ? 'bg-green-100 text-green-700'
+                    : 'bg-red-100 text-red-700'
                 }`}
               >
                 {passwordMessage.text}

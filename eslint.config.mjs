@@ -9,40 +9,72 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
-];
-
-// Disable all ESLint rules
 export default [
   {
-    rules: {
-      // Disable all rules
-      "@next/next/no-img-element": "off",
-      "@next/next/no-html-link-for-pages": "off",
-      "react/no-unescaped-entities": "off",
-      "react/display-name": "off",
-      "react/jsx-key": "off",
-      "react/jsx-no-target-blank": "off",
-      "react/no-children-prop": "off",
-      "react/no-unknown-property": "off",
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off",
-      "react-hooks/exhaustive-deps": "off",
-      "react-hooks/rules-of-hooks": "off",
-      "no-unused-vars": "off",
-      "no-console": "off",
-      "no-debugger": "off",
-      "no-undef": "off",
-      "no-var": "off",
-      "prefer-const": "off",
-      "prefer-rest-params": "off",
-      "prefer-spread": "off",
-      "prefer-template": "off",
-      "spaced-comment": "off",
-      "vars-on-top": "off",
-      "yoda": "off",
-      // Add more rules to disable as needed
-    },
+    ignores: [
+      "**/node_modules/**",
+      ".next/**",
+      "out/**",
+      "public/**",
+      "**/*.config.js",
+      "**/*.config.mjs",
+      "cypress/**"
+    ]
   },
+  ...compat.extends(
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended"
+  ),
+  {
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      // React rules
+      "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
+      "react/display-name": "off",
+      "react/jsx-key": "error",
+      "react/jsx-no-target-blank": "warn",
+      "react/no-unescaped-entities": "off",
+      
+      // Next.js rules
+      "@next/next/no-img-element": "warn",
+      "@next/next/no-html-link-for-pages": "warn",
+      
+      // TypeScript rules
+      "@typescript-eslint/no-unused-vars": ["warn", { 
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      
+      // General rules
+      "no-console": ["warn", { "allow": ["warn", "error"] }],
+      "no-debugger": "warn",
+      "prefer-const": "warn",
+      "no-var": "error",
+      "spaced-comment": ["warn", "always"],
+      
+      // React Hooks rules
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+
+      // Prettier rules
+      "prettier/prettier": ["error", {
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "tabWidth": 2,
+        "semi": true,
+        "printWidth": 100
+      }]
+    },
+    settings: {
+      react: {
+        version: "detect"
+      }
+    }
+  }
 ];

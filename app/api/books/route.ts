@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 // Mock data for demonstration
-let books = [
+const books = [
   {
     id: '1',
     title: 'The Great Gatsby',
@@ -9,7 +9,7 @@ let books = [
     isbn: '978-0743273565',
     quantity: 10,
     price: 9.99,
-    category: 'Classic'
+    category: 'Classic',
   },
   {
     id: '2',
@@ -18,8 +18,8 @@ let books = [
     isbn: '978-0446310789',
     quantity: 15,
     price: 12.99,
-    category: 'Fiction'
-  }
+    category: 'Fiction',
+  },
 ];
 
 export async function GET() {
@@ -31,14 +31,11 @@ export async function POST(request: Request) {
     const book = await request.json();
     const newBook = {
       id: Date.now().toString(),
-      ...book
+      ...book,
     };
     books.push(newBook);
     return NextResponse.json({ book: newBook });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to create book' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create book' }, { status: 500 });
   }
-} 
+}

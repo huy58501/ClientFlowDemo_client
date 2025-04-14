@@ -44,13 +44,11 @@ export default function ClientLayout({
     return (
       <div className="flex min-h-screen bg-gray-100">
         <Sidebar title="Client Dashboard" menuItems={menuItemsClient} />
-        <main className="flex-1 p-8 md:ml-6 mt-[73px] md:mt-0">
-          {children}
-        </main>
+        <main className="flex-1 p-8 md:ml-6 mt-[73px] md:mt-0">{children}</main>
       </div>
     );
   }
 
   // For other roles (admin, tester), just render the children
   return <>{children}</>;
-} 
+}

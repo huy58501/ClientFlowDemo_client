@@ -7,7 +7,7 @@ export async function GET() {
 
   // Clear the 'auth_token' cookie
   headers.append('Set-Cookie', 'auth_token=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Strict');
-  
+
   // Clear the 'username' cookie
   headers.append('Set-Cookie', 'username=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Strict');
 

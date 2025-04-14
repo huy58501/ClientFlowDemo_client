@@ -8,15 +8,17 @@ type AuthResponse = {
 };
 
 const useAuth = () => {
-  const [authStatus, setAuthStatus] = useState<'loading' | 'authorized' | 'unauthorized'>('loading');
+  const [authStatus, setAuthStatus] = useState<'loading' | 'authorized' | 'unauthorized'>(
+    'loading'
+  );
   const router = useRouter();
   const [auth, setAuth] = useState<AuthResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
-    const usernameFromPath = window.location.pathname.split('/')[1];
-    if (usernameFromPath) {
+      const usernameFromPath = window.location.pathname.split('/')[1];
+      if (usernameFromPath) {
         try {
           const response = await fetch(`/api/auth/check-login-auth?username=${usernameFromPath}`, {
             method: 'POST',

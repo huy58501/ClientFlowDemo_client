@@ -27,4 +27,4 @@ export default function BookInventoryPage({ params }: { params: Promise<PagePara
   }
 
   return <NotFound />;
-} 
+}
