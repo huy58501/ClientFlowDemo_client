@@ -4,17 +4,21 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "eslint.workingDirectories": [
     {
       "mode": "auto"
     }
-  ]
-} 
+  ],
+  "eslint.format.enable": true,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "eslint.alwaysShowStatus": true,
+  "eslint.run": "onType",
+  "eslint.lintTask.enable": true,
+  "eslint.debug": true,
+  "eslint.trace.server": "verbose"
+}

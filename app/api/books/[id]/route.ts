@@ -22,10 +22,7 @@ let books = [
   },
 ];
 
-export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: Request, { params }: { params: { id: string } }) {
   try {
     const { id } = params;
     const updatedBook = await request.json();
@@ -38,14 +35,12 @@ export async function PUT(
     books[bookIndex] = { ...books[bookIndex], ...updatedBook };
     return NextResponse.json({ book: books[bookIndex] });
   } catch (error) {
+    console.error('Error updating book:', error);
     return NextResponse.json({ error: 'Failed to update book' }, { status: 500 });
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
     const { id } = params;
     const bookIndex = books.findIndex(book => book.id === id);
@@ -53,10 +48,10 @@ export async function DELETE(
     if (bookIndex === -1) {
       return NextResponse.json({ error: 'Book not found' }, { status: 404 });
     }
-
     books = books.filter(book => book.id !== id);
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error('Error deleting book:', error);
     return NextResponse.json({ error: 'Failed to delete book' }, { status: 500 });
   }
 }

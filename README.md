@@ -16,12 +16,14 @@ ClientFlow is a modern, secure client management system built with Next.js, Expr
 ## Tech Stack
 
 ### Frontend
+
 - **Next.js**: React framework for server-rendered applications
 - **TypeScript**: Type-safe JavaScript
 - **Tailwind CSS**: Utility-first CSS framework
 - **React Icons**: Icon library
 
 ### Backend
+
 - **Express.js**: Node.js web application framework
 - **Prisma**: Next-generation ORM for Node.js and TypeScript
 - **PostgreSQL**: Relational database
@@ -39,12 +41,14 @@ ClientFlow is a modern, secure client management system built with Next.js, Expr
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/huy58501/ClientFlowDemo_client.git
    cd clientflow
    ```
 
 2. Install dependencies for both client and server:
+
    ```bash
    # Install client dependencies
    cd client
@@ -56,16 +60,19 @@ ClientFlow is a modern, secure client management system built with Next.js, Expr
    ```
 
 3. Set up environment variables:
+
    - Create `.env` files in both client and server directories
    - See `.env.example` files for required variables
 
 4. Set up the database:
+
    ```bash
    cd server
    npx prisma migrate dev
    ```
 
 5. Start the development servers:
+
    ```bash
    # Start the server
    cd server
@@ -141,6 +148,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Express](https://expressjs.com/)
 - [Prisma](https://www.prisma.io/)
 - [Tailwind CSS](https://tailwindcss.com/) # ClientFlowDemo_client
-
 
 updating README.md

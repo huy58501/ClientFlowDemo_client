@@ -68,7 +68,10 @@ export default [
         "trailingComma": "es5",
         "tabWidth": 2,
         "semi": true,
-        "printWidth": 100
+        "printWidth": 100,
+        "bracketSpacing": true,
+        "arrowParens": "avoid",
+        "endOfLine": "auto"
       }]
     },
     settings: {
