@@ -16,18 +16,14 @@ const useAuth = () => {
   useEffect(() => {
     const checkAuth = async () => {
     const usernameFromPath = window.location.pathname.split('/')[1];
-    console.log("usernameFromPath", usernameFromPath);
     if (usernameFromPath) {
-      console.log("usernameFromPath is not null");
         try {
           const response = await fetch(`/api/auth/check-login-auth?username=${usernameFromPath}`, {
             method: 'POST',
             credentials: 'include',
           });
-          console.log("response", response);
           if (response.ok) {
             const data = await response.json();
-            console.log("data", data);
             if (data.authorized) {
               setAuthStatus('authorized');
               setAuth(data);

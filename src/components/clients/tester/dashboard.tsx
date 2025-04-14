@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { FiMenu, FiX, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import Sidebar from '@/components/UI/Sidebar';
-import Navbar from '@/components/UI/Navbar';
 import useAuth from '@/hooks/useAuth';
 import LoadingModal from '@/components/UI/LoadingModal';
 
@@ -47,30 +46,13 @@ const Dashboard: React.FC = () => {
     fetchUsers();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      window.location.href = '/login';
-    } catch (err) {
-      setError('Failed to logout');
-    }
-  };
-
-  const toggleLoginHistory = (userId: string) => {
-    if (expandedUserId === userId) {
-      setExpandedUserId(null);
-    } else {
-      setExpandedUserId(userId);
-    }
-  };
-
   if (!checkAuth || loading) {
     return <LoadingModal />;
   }
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <Navbar title="Client Dashboard" onLogout={handleLogout} />
+      <Sidebar title="Client Dashboard"/>
       
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-8 overflow-auto">

@@ -24,9 +24,7 @@ export const Login = () => {
     }
 
     const newUsername = username.toLowerCase();
-    try {
-      console.log("Sending login request with:", { username: newUsername, password: "***" });
-      
+    try {      
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
@@ -38,8 +36,6 @@ export const Login = () => {
           userAgent: navigator.userAgent
         }),
       });
-
-      console.log("Response status:", response.status);
       
       if (!response.ok) {
         const errorData = await response.json();
@@ -49,7 +45,6 @@ export const Login = () => {
       }
 
       const data = await response.json();
-      console.log("Login response:", data);
       
       if (data.success) {
         if (newUsername === "admin") {

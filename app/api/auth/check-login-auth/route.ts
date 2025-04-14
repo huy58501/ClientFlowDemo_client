@@ -3,7 +3,7 @@ import * as cookie from "cookie";
 import jwt from "jsonwebtoken";
 
 export async function POST(req: Request) {
-  try {
+  try { 
     const cookies = cookie.parse(req.headers.get("cookie") || "");
     const token = cookies.auth_token;
     const url = new URL(req.url);
@@ -31,14 +31,6 @@ export async function POST(req: Request) {
     if (!isAdmin && !isSelf) {
       return NextResponse.json({ authorized: false, error: "Forbidden" }, { status: 403 });
     }
-    console.log("verifiedUser", verifiedUser);
-    console.log("isAdmin", isAdmin);
-    console.log("isSelf", isSelf);
-    console.log("NextResponse", NextResponse.json({
-      authorized: true,
-      username: verifiedUser.username,
-      role: verifiedUser.role,
-    }));
 
     return NextResponse.json({
       authorized: true,

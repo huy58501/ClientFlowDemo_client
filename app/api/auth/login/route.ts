@@ -1,54 +1,6 @@
 import { NextResponse } from "next/server";
 import { API_ROUTES } from "@/config/api";
 
-const convertDate = () => {
-  const now = new Date();
-
-  const options: Intl.DateTimeFormatOptions = {
-    timeZone: "America/New_York",
-    hour12: false,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit"
-  };
-
-  const formatter = new Intl.DateTimeFormat("en-US", options);
-  const parts = formatter.formatToParts(now);
-
-  const getPart = (type: string) =>
-    parts.find((p) => p.type === type)?.value.padStart(2, "0") ?? "00";
-
-  const rawYear = getPart("year");
-  const rawMonth = getPart("month");
-  const rawDay = getPart("day");
-  const rawHour = getPart("hour");
-  const minute = getPart("minute");
-  const second = getPart("second");
-
-  let year = parseInt(rawYear, 10);
-  let month = parseInt(rawMonth, 10);
-  let day = parseInt(rawDay, 10);
-  let hour = rawHour;
-
-  // Fix invalid hour 24
-  if (hour === "24") {
-    hour = "00";
-    const next = new Date(Date.UTC(year, month - 1, day));
-    next.setUTCDate(next.getUTCDate() + 1);
-    year = next.getUTCFullYear();
-    month = next.getUTCMonth() + 1;
-    day = next.getUTCDate();
-  }
-
-  const formatted = `${year.toString().padStart(4, '0')}-${month
-    .toString()
-    .padStart(2, '0')}-${day.toString().padStart(2, '0')} ${hour}:${minute}:${second}`;
-
-  return formatted;
-};
 
 export async function POST(req: Request) {
   try {
@@ -68,16 +20,12 @@ export async function POST(req: Request) {
     const api_key = process.env.API_KEY;
 
     // Get current timestamp
-    const loginTime = convertDate();
+    const loginTime = new Date().toISOString();
 
     // Validate the input data
     if (!username || !password) {
       return NextResponse.json({ error: "Username and password are required" }, { status: 400 });
     }
-
-    console.log("ip: ", ip);
-    console.log("loginTime: ", loginTime);
-    console.log("userAgent: ", userAgent);
 
     const response = await fetch(API_ROUTES.LOGIN, {
       method: "POST",
@@ -102,7 +50,6 @@ export async function POST(req: Request) {
 
     // Get the response data from PHP backend (which includes success/failure info)
     const data = await response.json();
-    console.log("data: ", data);
     // If login is successful, create JWT token
     if (data.success) {
       const token = data.token;

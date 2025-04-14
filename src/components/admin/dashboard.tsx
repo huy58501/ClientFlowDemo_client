@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import React from 'react';
-import { FiMenu, FiX, FiChevronDown, FiChevronUp } from 'react-icons/fi';
-import Navbar from '../UI/Navbar';
+import { FiMenu, FiX, FiChevronDown, FiChevronUp, FiFolder, FiGrid } from 'react-icons/fi';
+import Sidebar from '../UI/Sidebar';
 
 interface User {
   id: string;
@@ -29,7 +29,7 @@ const Dashboard: React.FC = () => {
       const response = await fetch(`/api/get-users`, {
         headers: {
           credentials: 'include',
-        }
+        },
       });
       if (!response.ok) throw new Error('Failed to fetch users');
       const data = await response.json();
@@ -62,10 +62,23 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  const menuItems = [
+    {
+      label: 'Dashboard',
+      href: '/admin/dashboard',
+      icon: FiGrid,
+    },
+    {
+      label: 'Projects',
+      href: '/admin/projects',
+      icon: FiFolder,
+    },
+  ];
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-slate-900">
       {/* Mobile Header */}
-      <Navbar title="Admin Dashboard" onLogout={handleLogout} />
+      <Sidebar title="Admin Dashboard" menuItems={menuItems} />
 
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-8 w-full">
