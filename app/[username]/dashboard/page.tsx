@@ -11,6 +11,7 @@ import useAuth from '@/hooks/useAuth';
 type PageParams = {
   username: string;
 };
+
 export default function DashboardPage({ params }: { params: Promise<PageParams> }) {
   const { username } = use(params);
   const checkAuth = useAuth();
