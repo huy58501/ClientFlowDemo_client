@@ -22,9 +22,12 @@ let books = [
   },
 ];
 
-export async function PUT(request: Request, context: { params: { id: string } }) {
+export async function PUT(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const { id } = context.params;
+    const { id } = params;
     const updatedBook = await request.json();
 
     const bookIndex = books.findIndex(book => book.id === id);
@@ -39,9 +42,12 @@ export async function PUT(request: Request, context: { params: { id: string } })
   }
 }
 
-export async function DELETE(request: Request, context: { params: { id: string } }) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   try {
-    const { id } = context.params;
+    const { id } = params;
     const bookIndex = books.findIndex(book => book.id === id);
 
     if (bookIndex === -1) {
