@@ -17,15 +17,8 @@ const useAuth = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-<<<<<<< HEAD
       const usernameFromPath = window.location.pathname.split('/')[1];
       if (usernameFromPath) {
-=======
-    const usernameFromPath = window.location.pathname.split('/')[1];
-    console.log("usernameFromPath", usernameFromPath);
-    if (usernameFromPath) {
-      console.log("usernameFromPath is not null");
->>>>>>> origin/staging
         try {
           const response = await fetch(`/api/auth/check-login-auth?username=${usernameFromPath}`, {
             method: 'POST',
