@@ -2,6 +2,9 @@
 
 ClientFlow is a modern, secure client management system built with Next.js, Express, and PostgreSQL. It provides robust user authentication, role-based access control, and comprehensive login history tracking.
 
+Username: admin/client/tester
+Pwd: admin123/client123/tester123
+
 ![ClientFlow Dashboard](https://via.placeholder.com/800x400?text=ClientFlow+Dashboard)
 
 ## Features
