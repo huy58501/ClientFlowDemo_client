@@ -42,7 +42,7 @@ export async function POST(req: Request) {
         api_key,
       }),
     });
-
+    console.log('response: ', response);
     // Handle non-OK response from backend
     if (!response.ok) {
       throw new Error('Failed to login');
@@ -50,6 +50,7 @@ export async function POST(req: Request) {
 
     // Get the response data from PHP backend (which includes success/failure info)
     const data = await response.json();
+    console.log('data: ', data);
     // If login is successful, create JWT token
     if (data.success) {
       const token = data.token;
